@@ -70,7 +70,7 @@
 	<cfset variables.validation = {}>
 	<cfset variables.validation_order = []>
 	<cfset variables.errors = []>
-	<cfset variables.errorFields = []>
+	<cfset variables.errorFields = {}>
 	<cfset variables.rc = {}>
 	<cfset variables.run = false>
 	<cfset variables.trigger = {}>
@@ -648,7 +648,13 @@
         <cfargument name="message" required="true" type="string">
         
 		<cfset arrayAppend(variables.errors, {field=arguments.field, message=arguments.message})>
-		<cfset arrayAppend(variables.errorFields, arguments.field) />        
+        
+		<!--- keep track of the total amount of errors each field has --->
+        <cfif NOT structKeyExists(variables.errorFields, arguments.field)>
+        	<cfset variables.errorFields[arguments.field] = 0 />
+        </cfif>
+        
+		<cfset variables.errorFields[arguments.field] = variables.errorFields[arguments.field] + 1 />              
         
     </cffunction>
 
@@ -669,10 +675,44 @@
 
 		<cfreturn local.message>
 	</cffunction>
-
-	<cffunction name="getErrorFields" output="false" access="public" returntype="array">
+	
+    <!--- return the struct of fields that have errors and the total count of errors --->
+	<cffunction name="getErrorFields" output="false" access="public" returntype="struct">
 		<cfreturn variables.errorFields>
 	</cffunction>
+
+	<!--- returns a list of all fields that have an error present --->
+	<cffunction name="getErrorFieldList" output="false" access="public" returntype="string">
+		<cfreturn structKeyList(variables.errorFields) />
+	</cffunction>
+
+	<!--- returns how many errors are set on a specific field --->
+	<cffunction name="fieldErrorCount" access="public" outuput="false" returntype="numeric">
+    	<cfargument name="field" required="true" type="string" />
+        
+        <cfset local.errors = 0 />
+        
+        <cfif structKeyExists(variables.errorFields, arguments.field)>
+        	<cfset local.errors = variables.errorFields[arguments.field] />
+        </cfif>
+        
+        <cfreturn local.errors />
+    </cffunction>
+    
+    <!--- returns the total errors present on a given list of fields --->
+    <cffunction name="fieldListHasError" access="public" output="false" returntype="boolean">
+    	<cfargument name="fieldList" required="true" type="string" />
+        
+        <cfset var local = structNew() />
+        
+        <cfset local.errors = 0 />
+        
+        <cfloop list="#arguments.fieldList#" index="local.field">
+        	<cfset local.errors = local.errors + fieldErrorCount(local.field) />
+        </cfloop>
+                
+        <cfreturn local.errors GT 0 />
+    </cffunction>
 
 	<cffunction name="getFieldLabel" output="false" access="public" returntype="string">
 		<cfargument name="field" required="true" type="string">
