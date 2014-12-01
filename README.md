@@ -14,10 +14,10 @@ Validate forms dynamically and quickly within a Cold Fusion environment.
 	> alpha_dash :: field must only contain alpha and hyphen characters
 	> alpha_numeric :: field must only contain alphanumeric characters
 	> between[value1|value2] :: field must be between the values specified in the argument list (delimited by a pipe)
-	> contains[value] :: field must contains 'value'
+	> contains[value] :: field must contain 'value'
 	> does_not_contain[value] :: field must not contain 'value'
 	> equals[value] :: field must equal 'value'
-	> exact_length[len] :: field must have a exact length of 'len'
+	> exact_length[len] :: field must have an exact length of 'len'
 	> greater_than[fieldName] :: field must be greater than the value of the field 'fieldName'
 	> greater_than[value] :: field must be greater than 'value'
 	> greater_than_datetime[fieldName] :: field must have a date greather than the value of the field 'fieldName'
@@ -43,8 +43,8 @@ Validate forms dynamically and quickly within a Cold Fusion environment.
 	> max_length[len] :: field must have a maximum length of 'len'
 	> min_length[len] :: field must have a minimum length of 'len'
 	> numeric :: field must be a numeric value
-	> select_at_least[value] :: number of field values (delimited by a comma) must be at least 'value'
-	> select_no_more_than[value] :: number of field values (delimited by a comma) must be no more than 'value'
+	> select_at_least[value] :: number of field values (delimited by a pipe) must be at least 'value'
+	> select_no_more_than[value] :: number of field values (delimited by a pipe) must be no more than 'value'
 	> valid_base64 :: field must be of valid base64 representation
 	> valid_creditcard :: field must be of valid creditcard format
 	> valud_currencyUS :: field must be of valid US currency format
@@ -52,7 +52,7 @@ Validate forms dynamically and quickly within a Cold Fusion environment.
 	> valid_email :: field must be of valid e-mail address format
 	> valid_email_list :: list of field values must be of valid e-mail address format
 	> valid_ip :: field must be of valid IPv4 address format
-	> valid_pdf[filepath] :: 'filepath' must be a path to a PDF file
+	> valid_pdf[filepath] :: 'filepath' must be a path to a PDF file readable by CFPDF
 	> valid_phoneUS :: field must be of valid US phone number format
 	> valid_postal :: field must be of valid postal code format for US and Canada
 	> valid_ssn :: field must be of valid SSN format
